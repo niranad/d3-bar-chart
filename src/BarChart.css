@@ -1,0 +1,80 @@
+.BarChart {
+  display: inline-block;
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+
+svg {
+  display: none;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: auto;
+  width: 100vw;
+  text-align: center;
+  color: rgb(47, 81, 109);
+  font-size: 30px;
+  font-weight: 550;
+  padding: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  z-index: 2;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  background-color: rgba(31, 129, 129, 0.61);
+  top: 60%;
+  animation: emerge 0.5s ease-in;
+}
+
+@keyframes emerge {
+}
+
+.loader {
+  border: 4px solid rgb(51, 102, 143);
+  border-top: 4px solid lightgray;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 300px auto 0;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+svg {
+  position: relative;
+  margin: auto;
+  background-color: white;
+  z-index: 1;
+  box-shadow: 2px 2px 8px 8px rgb(47, 81, 109);
+}
+
+.bar {
+  fill: rgb(47, 81, 109);
+}
+
+.bar:hover {
+  fill: whitesmoke;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 940px) {
+  .BarChart {
+    position: absolute;
+  }
+}
