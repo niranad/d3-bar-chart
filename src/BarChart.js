@@ -48,7 +48,32 @@ function BarChart() {
 
         const svg = d3.select('svg').attr('width', w).attr('height', h);
 
-        // Create bars and tooltips
+        // x axis label
+        svg
+          .append('text')
+          .text('Gross Domestic Product')
+          .attr('class', 'axis-label')
+          .attr('id', 'x-axis-label')
+          .attr('x', -250)
+          .attr('y', 95)
+          .attr('transform', `rotate(-90)`);
+        // y axis label
+        svg
+          .append('text')
+          .text('Quarterly Date')
+          .attr('class', 'axis-label')
+          .attr('id', 'y-axis-label')
+          .attr('x', 750)
+          .attr('y', 530);
+
+        svg
+          .append('text')
+          .text('More Information: ' + gdpData.display_url)
+          .attr('class', 'axis-label')
+          .attr('x', 470)
+          .attr('y', 570);
+
+        // Create bars
         svg
           .selectAll('rect')
           .data(dataset)
@@ -60,16 +85,7 @@ function BarChart() {
           .attr('width', barWidth)
           .attr('height', (d) => h - hPaddingTop - yScale(d[1]))
           .attr('x', (d, i) => i * (barWidth + barSpace) + widthPad)
-          .attr('y', (d) => yScale(d[1]))
-          .append('title')
-          .attr('id', 'tooltip')
-          .attr('data-date', (d) => d[0])
-          .text((d) => {
-            const date = new Date(d[0]);
-            return `${date.getFullYear()} Q${date.getMonth() / 3 + 1} \n$${
-              d[1]
-            } Billion`;
-          });
+          .attr('y', (d) => yScale(d[1]));
 
         // Format x-axis tick labels to remove comma from year values
         const tickLabels = new Array(14)
@@ -86,12 +102,42 @@ function BarChart() {
         svg
           .append('g')
           .attr('id', 'y-axis')
-          .attr('transform', 'translate(' + widthPad + ', 0' + ')')
+          .attr('transform', `translate(${widthPad}, 0)`)
           .call(yAxis);
+
+        // Add mouse event listeners to rect elements
+        const bars = document.querySelectorAll('.bar');
+        const tooltip = document.querySelector('#tooltip');
+
+        bars.forEach((bar) => {
+          bar.addEventListener('mouseenter', (event) => {
+            const dataDate = event.target.getAttribute('data-date');
+            const datagdp = event.target.getAttribute('data-gdp');
+            const date = new Date(dataDate);
+
+            tooltip.setAttribute('data-date', dataDate + '');
+            tooltip.setAttribute('data-gdp', datagdp + '');
+            document.querySelector(
+              '#tooltip-date',
+            ).textContent = `${date.getFullYear()} Q${date.getMonth() / 3 + 1}`;
+            document.querySelector(
+              '#tooltip-gdp',
+            ).textContent = `$${datagdp} Billion`;
+
+            tooltip.style.display = 'block';
+            tooltip.style.left = `${
+              30 + Number(event.target.getAttribute('x'))
+            }px`;
+          });
+        });
+
+        bars.forEach((bar) => {
+          bar.addEventListener('mouseleave', (event) => {
+            tooltip.style.display = 'none';
+          });
+        });
       });
   }, []);
-
-  
 
   return (
     <div className='BarChart'>
@@ -99,14 +145,14 @@ function BarChart() {
         United States GDP
       </header>
       <div className='loader' />
+      <div id='tooltip' className='tooltip' data-date='' data-gdp=''>
+        <p id='tooltip-date' className='tooltip-date'></p>
+        <p id='tooltip-gdp'></p>
+      </div>
       <svg />
     </div>
   );
 }
 
 export default BarChart;
-
-
-
-
 

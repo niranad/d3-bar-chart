@@ -4,7 +4,7 @@ D3 (Data Driven Document) bar chart visualization of United States Gross Domesti
 
 ## Link
 
-Project is live with firebase hosting at [US GDP Bar Chart](https://). Project's passing tests can be run on [codepen](https://codepen.io/niranad/full/MWVyQNL).
+Project is live with firebase hosting at [US GDP Bar Chart](https://d3-gdp-bar-chart.web.app). Project's passing tests can be run on [codepen](https://codepen.io/niranad/full/MWVyQNL).
 
 ## Source
 
